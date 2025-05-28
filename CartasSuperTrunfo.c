@@ -1,91 +1,101 @@
 #include <stdio.h>
 
+typedef struct {
+    char estado[21];
+    char codigo[4];
+    char nomeCidade[50];
+    unsigned long int populacao;
+    float area;
+    float pib;
+    int pontosTuristicos;
+    float densidadePopulacional;
+    float pibPerCapita;
+    float superPoder;
+} Carta;
+
+// Função para calcular os dados derivados da carta
+void calcularDados(Carta *carta) {
+    carta->densidadePopulacional = carta->populacao / carta->area;
+    carta->pibPerCapita = (carta->pib * 1000000000) / carta->populacao;  // PIB em reais
+    carta->superPoder = (float)carta->populacao + carta->area + (carta->pib * 1000000000) +
+                        carta->pontosTuristicos + carta->pibPerCapita + (1.0f / carta->densidadePopulacional);
+}
+
+// Função para imprimir uma carta
+void imprimirCarta(Carta carta, int numero) {
+    printf("\nCarta %d:\n", numero);
+    printf("Estado: %s\n", carta.estado);
+    printf("Código: %s\n", carta.codigo);
+    printf("Nome da Cidade: %s\n", carta.nomeCidade);
+    printf("População: %lu\n", carta.populacao);
+    printf("Área: %.2f km²\n", carta.area);
+    printf("PIB: %.2f bilhões de reais\n", carta.pib);
+    printf("Pontos Turísticos: %d\n", carta.pontosTuristicos);
+    printf("Densidade Populacional: %.2f hab/km²\n", carta.densidadePopulacional);
+    printf("PIB per Capita: %.2f reais\n", carta.pibPerCapita);
+    printf("Super Poder: %.2f\n", carta.superPoder);
+}
+
 int main() {
+    Carta carta1, carta2;
 
-    char estado1[21];
-    char estado2[21];
-
-    char codigo1[4];
-    char nomeCidade1[50];
-    int populacao1;
-    float area1;
-    float pib1;
-    int pontosTuristicos1;
-
-    char codigo2[4];
-    char nomeCidade2[50];
-    int populacao2;
-    float area2;
-    float pib2;
-    int pontosTuristicos2;
-
-    // Entrada dos dados da Carta 1
+    // Entrada de dados
     printf("Cadastro da Carta 1:\n");
+    printf("Estado: "); scanf("%20s", carta1.estado);
+    printf("Código: "); scanf("%3s", carta1.codigo);
+    printf("Cidade: "); scanf("%49s", carta1.nomeCidade);
+    printf("População: "); scanf("%lu", &carta1.populacao);
+    printf("Área: "); scanf("%f", &carta1.area);
+    printf("PIB (em bilhões): "); scanf("%f", &carta1.pib);
+    printf("Pontos Turísticos: "); scanf("%d", &carta1.pontosTuristicos);
 
-    printf("Digite o estado (até 20 caracteres): ");
-    scanf("%20s", estado1);
-
-    printf("Digite o código da carta (ex: A01): ");
-    scanf("%3s", codigo1);
-
-    printf("Digite o nome da cidade (sem espaços): ");
-    scanf("%49s", nomeCidade1);
-
-    printf("Digite a população da cidade: ");
-    scanf("%d", &populacao1);
-
-    printf("Digite a área da cidade (em km²): ");
-    scanf("%f", &area1);
-
-    printf("Digite o PIB da cidade (em bilhões de reais): ");
-    scanf("%f", &pib1);
-
-    printf("Digite o número de pontos turísticos: ");
-    scanf("%d", &pontosTuristicos1);
-
-    // Entrada dos dados da Carta 2
     printf("\nCadastro da Carta 2:\n");
+    printf("Estado: "); scanf("%20s", carta2.estado);
+    printf("Código: "); scanf("%3s", carta2.codigo);
+    printf("Cidade: "); scanf("%49s", carta2.nomeCidade);
+    printf("População: "); scanf("%lu", &carta2.populacao);
+    printf("Área: "); scanf("%f", &carta2.area);
+    printf("PIB (em bilhões): "); scanf("%f", &carta2.pib);
+    printf("Pontos Turísticos: "); scanf("%d", &carta2.pontosTuristicos);
 
-    printf("Digite o estado (até 20 caracteres): ");
-    scanf("%20s", estado2);
+    // Cálculos
+    calcularDados(&carta1);
+    calcularDados(&carta2);
 
-    printf("Digite o código da carta (ex: B02): ");
-    scanf("%3s", codigo2);
+    // Exibir cartas
+    imprimirCarta(carta1, 1);
+    imprimirCarta(carta2, 2);
 
-    printf("Digite o nome da cidade (sem espaços): ");
-    scanf("%49s", nomeCidade2);
+    // Comparações
+    printf("\nComparação de Cartas:\n");
 
-    printf("Digite a população da cidade: ");
-    scanf("%d", &populacao2);
+    printf("População: Carta %d venceu (%d)\n",
+           carta1.populacao > carta2.populacao ? 1 : 2,
+           carta1.populacao > carta2.populacao ? 1 : 2);
 
-    printf("Digite a área da cidade (em km²): ");
-    scanf("%f", &area2);
+    printf("Área: Carta %d venceu (%d)\n",
+           carta1.area > carta2.area ? 1 : 2,
+           carta1.area > carta2.area ? 1 : 2);
 
-    printf("Digite o PIB da cidade (em bilhões de reais): ");
-    scanf("%f", &pib2);
+    printf("PIB: Carta %d venceu (%d)\n",
+           carta1.pib > carta2.pib ? 1 : 2,
+           carta1.pib > carta2.pib ? 1 : 2);
 
-    printf("Digite o número de pontos turísticos: ");
-    scanf("%d", &pontosTuristicos2);
+    printf("Pontos Turísticos: Carta %d venceu (%d)\n",
+           carta1.pontosTuristicos > carta2.pontosTuristicos ? 1 : 2,
+           carta1.pontosTuristicos > carta2.pontosTuristicos ? 1 : 2);
 
-    // Exibição dos dados da Carta 1
-    printf("\nCarta 1:\n");
-    printf("Estado: %s\n", estado1);
-    printf("Código: %s\n", codigo1);
-    printf("Nome da Cidade: %s\n", nomeCidade1);
-    printf("População: %d\n", populacao1);
-    printf("Área: %.2f km²\n", area1);
-    printf("PIB: %.2f bilhões de reais\n", pib1);
-    printf("Número de Pontos Turísticos: %d\n", pontosTuristicos1);
+    printf("Densidade Populacional: Carta %d venceu (%d)\n",
+           carta1.densidadePopulacional < carta2.densidadePopulacional ? 1 : 2,
+           carta1.densidadePopulacional < carta2.densidadePopulacional ? 1 : 2);
 
-    // Exibição dos dados da Carta 2
-    printf("\nCarta 2:\n");
-    printf("Estado: %s\n", estado2);
-    printf("Código: %s\n", codigo2);
-    printf("Nome da Cidade: %s\n", nomeCidade2);
-    printf("População: %d\n", populacao2);
-    printf("Área: %.2f km²\n", area2);
-    printf("PIB: %.2f bilhões de reais\n", pib2);
-    printf("Número de Pontos Turísticos: %d\n", pontosTuristicos2);
+    printf("PIB per Capita: Carta %d venceu (%d)\n",
+           carta1.pibPerCapita > carta2.pibPerCapita ? 1 : 2,
+           carta1.pibPerCapita > carta2.pibPerCapita ? 1 : 2);
+
+    printf("Super Poder: Carta %d venceu (%d)\n",
+           carta1.superPoder > carta2.superPoder ? 1 : 2,
+           carta1.superPoder > carta2.superPoder ? 1 : 2);
 
     return 0;
 }
